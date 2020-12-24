@@ -30,22 +30,7 @@ Auth::routes([
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', function (CreateMikrotik $createMt) {
-
-
-        $mtList = \App\MtBoard::all();
-        //where('name', 'LIKE', '%-m')->where('name', '!=', 'mehanik-4-mt-m')
-//            ->get();
-
-        foreach ($mtList as $mt) {
-            if (!$mt->wireslessIfaces()->count()) {
-                echo $mt->name . "  -  -  " . $mt->last_ip;
-                $createMt($mt->last_ip, $mt->username, $mt->password, $port = 8728, $legacy = false);
-//                break;
-            }
-        }
-
-
-//        return view('app');
+        return view('app');
     });
 
 

@@ -79,7 +79,11 @@ class MtBoardController extends Controller
         }
 
         $mtWithErr = $createMt(
-            $request->ip, $request->username, $request->password, $request->port, $request->legacy
+            $request->ip,
+            $request->username,
+            $request->password,
+            $request->port,
+            $request->legacy
         );
 
         return isset($mtWithErr[0])

@@ -75,10 +75,8 @@
 
                 <div class="col-7">
                     @foreach($mtBoard->wireslessIfaces as $ifWlan)
-
-
                         <div class="card card-default">
-                            <form action="{{ action("RepresentController@update", ['mt_wireless_iface', $ifWlan->id]) }}" id="form_mt_board" method="post">
+                            <form action="{{ action("RepresentController@update", ['mt_ifaces', $ifWlan->id]) }}" id="form_mt_board" method="post">
                                 @method('PUT')
                                 @csrf
 

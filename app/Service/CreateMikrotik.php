@@ -14,7 +14,7 @@ class CreateMikrotik
 
     protected $data = [
 //        'if-ether'      => [ 'query' => '/interface/ethernet/print', ],
-        'ifWlanList'        => [ 'query' => '/interface/wireless/print', 'single' => false, ],
+        'ifWlanList'    => [ 'query' => '/interface/wireless/print', 'single' => false, ],
         'identity'      => [ 'query' => '/system/identity/print', 'single' => true, ],
         'routerboard'   => [ 'query' => '/system/routerboard/print', 'single' => true, ],
         'resource'      => [ 'query' => '/system/resource/print', 'single' => true, ],
@@ -32,12 +32,22 @@ class CreateMikrotik
     public function __invoke($host, $user = 'admin', $pass = 'P1nkMT4us', $port = 8728, $legacy = false)
     {
 
+        if (!is_array($pass))
+            $listPass = [$pass];
+
         // fetch data from board via API
-        try {
-            $this->init($host, $user, $pass, (int) $port, (bool) $legacy);
-        } catch (Exception $e) {
-            return [$e->getMessage(), null];
+        $try = 0;
+        foreach ($listPass as $pass) {
+            $try++;
+            try {
+                $this->init($host, $user, $pass, (int) $port, (bool) $legacy);
+                break;
+            } catch (Exception $e) {
+                if ($try >= count($listPass))
+                    return [$e->getMessage(), null];
+            }
         }
+
 
         // create new or update exists board
         $mtBoard = MtBoard::updateOrCreate(

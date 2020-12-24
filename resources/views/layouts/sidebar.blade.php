@@ -51,9 +51,27 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="{{ url('/domains') }}" class="nav-link active">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Domains </p>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ url('/snmp_templates') }}" class="nav-link active">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> SNMP Templates </p>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
                             <a href="{{ url('/mt_boards') }}" class="nav-link active">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p> Mikrotiks </p>
+                                <p> Mikrotiks Boards </p>
                             </a>
                         </li>
                     </ul>
@@ -61,10 +79,19 @@
                         <li class="nav-item">
                             <a href="{{ url('/mt_ifaces') }}" class="nav-link active">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p> Mikrotik Wireless Iface </p>
+                                <p> Mikrotik Wireless Ifaces </p>
                             </a>
                         </li>
                     </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ url('/mt_links') }}" class="nav-link active">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Mikrotik Wireless Links </p>
+                            </a>
+                        </li>
+                    </ul>
+
                 </li>
                 <li class="nav-header">EXAMPLES</li>
                 <li class="nav-item">

@@ -25,8 +25,8 @@ class CreateMtLinksTable extends Migration
             $table->smallInteger('s1_ch1')->nullable(true);
             $table->smallInteger('ccq1')->nullable(true);
             $table->smallInteger('rate1')->nullable(true);
-            $table->unsignedInteger('prev_byte1')->nullable(true);
-            $table->unsignedInteger('diff_byte1')->nullable(true);
+            $table->unsignedInteger('prev_byte1')->nullable(false)->default(0);
+            $table->unsignedInteger('diff_byte1')->nullable(false)->default(0);
 
             // rx values
             $table->smallInteger('s2')->nullable(true);
@@ -34,8 +34,8 @@ class CreateMtLinksTable extends Migration
             $table->smallInteger('s2_ch1')->nullable(true);
             $table->smallInteger('ccq2')->nullable(true);
             $table->smallInteger('rate2')->nullable(true);
-            $table->unsignedInteger('prev_byte2')->nullable(true);
-            $table->unsignedInteger('diff_byte2')->nullable(true);
+            $table->unsignedInteger('prev_byte2')->nullable(false)->default(0);
+            $table->unsignedInteger('diff_byte2')->nullable(false)->default(0);
 
             $table->timestamps();
 
