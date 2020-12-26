@@ -66,12 +66,21 @@
                             </a>
                         </li>
                     </ul>
+                </li>
 
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            MikroTiks
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ url('/mt_boards') }}" class="nav-link active">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p> Mikrotiks Boards </p>
+                                <p> Boards </p>
                             </a>
                         </li>
                     </ul>
@@ -79,7 +88,7 @@
                         <li class="nav-item">
                             <a href="{{ url('/mt_ifaces') }}" class="nav-link active">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p> Mikrotik Wireless Ifaces </p>
+                                <p> Wireless Ifaces </p>
                             </a>
                         </li>
                     </ul>
@@ -87,7 +96,7 @@
                         <li class="nav-item">
                             <a href="{{ url('/mt_links') }}" class="nav-link active">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p> Mikrotik Wireless Links </p>
+                                <p> Wireless Links </p>
                             </a>
                         </li>
                     </ul>

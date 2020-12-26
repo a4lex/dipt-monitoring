@@ -29,7 +29,8 @@ Auth::routes([
 ]);
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', function (CreateMikrotik $createMt) {
+
+    Route::get('/', function () {
         return view('app');
     });
 
@@ -40,6 +41,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mt_boards/{id}/edit',   'MtBoardController@edit');
     Route::get('/mt_boards/create',      'MtBoardController@create');
     Route::post('/mt_boards',            'MtBoardController@store');
+
+    //
+    //  MtLinks Routes
+    //
+    Route::get('/mt_links/chart',      'MtLinkController@chart');
+
+    //
+    //  RRD DB Routes
+    //
+    Route::get('/rrd',                  'RRDConteroller@getRRDData');
 
     //
     //  Represent Main Routes

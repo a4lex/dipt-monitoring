@@ -18,6 +18,7 @@ mix
     // .styles('resources/dist/css/adminlte.css', 'public/css/app.css')
     .sourceMaps(productionSourceMaps, 'source-map')
     .styles([
+        'resources/dist/css/ownstyle.css',
         'resources/plugins/fontawesome-free/css/all.min.css',
         'resources/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css',
         'resources/plugins/icheck-bootstrap/icheck-bootstrap.min.css',
@@ -28,7 +29,8 @@ mix
         'resources/plugins/datatables-bs4/css/dataTables.bootstrap4.css',
         'resources/plugins/select2/css/select2.min.css',
         'resources/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css',
-        'resources/plugins/toastr/toastr.css'
+        'resources/plugins/toastr/toastr.css',
+        'resources/plugins/chart.js/Chart.min.css'
     ], 'public/css/app.css')
     .scripts([
         'resources/plugins/jquery/jquery.min.js',
@@ -40,6 +42,7 @@ mix
         'resources/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js',
         'resources/plugins/select2/js/select2.full.min.js',
         'resources/plugins/toastr/toastr.min.js',
-        'resources/dist/js/adminlte.js'
+        'resources/dist/js/adminlte.js',
+        'resources/plugins/chart.js/Chart.min.js'
     ], 'public/js/app.js');
 

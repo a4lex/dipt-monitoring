@@ -16,6 +16,7 @@ class CreateSnmpTemplatesTable extends Migration
         Schema::create('snmp_templates', function (Blueprint $table) {
             $table->id();
             $table->string('name', 32)->nullable(false);
+            $table->string('pname', 32)->nullable(false);
             $table->enum('source', ['snmp', 'mysql', 'system'])
                 ->nullable(false)->default('snmp');
             $table->string('query', 255)->nullable(false);
@@ -27,9 +28,9 @@ class CreateSnmpTemplatesTable extends Migration
             $table->bigInteger('min')->default(0);
             $table->bigInteger('max')->default(100);
             $table->bigInteger('threshold')->default(1000000);
-            $table->string('color', 16)->nullable(false)->default('#2000AFAF');
-            $table->string('line', 16)->nullable(false)->default('LINE1');
-            $table->string('format', 32)->nullable(false)->default('%2.4lf');
+            $table->string('color', 16)->nullable(false)->default('#2000AF');
+            $table->boolean('fill_bg')->default(0)->nullable(false);
+
             $table->timestamps();
 
             $table->unique(['name']);

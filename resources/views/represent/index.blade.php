@@ -1,6 +1,9 @@
 @extends('app')
 
 @section('content')
+
+    @includeIf($represent->name . '.extra.index_top')
+
     <div class="row">
         <div class="col-12">
             <div class="card card-primary card-outline">
@@ -34,6 +37,9 @@
             </div>
         </div>
     </div>
+
+    @includeIf($represent->name . '.extra.index_bottom')
+
 @endsection
 
 @push('scripts')
@@ -165,6 +171,12 @@
                 'ajax': {
                     type : 'GET',
                     url : '{{ url('/' . $represent->name) }}',
+                    // TODO bad idea use initExtraTop & initExtraBottom
+                    dataSrc : function (json) {
+                        if (typeof initExtraTop != 'undefined') initExtraTop(json.data);
+                        if (typeof initExtraBottom != 'undefined') initExtraBottom(json.data);
+                        return json.data;
+                    }
                 }
             });
         });
