@@ -28,13 +28,12 @@ class UpdateRepresentRequest extends RepresentRequest
         $request = $this;
 
         return array_map(function ($col) use ($represent, $request) {
-
             return array_merge(
                 explode('|', $col['rules']),
                 [
                     $col['editable']     ? 'editable:1' : 'editable:0',
                     $col['singular']     ? "unique:{$represent->model},{$col['alias']},{$request->route('id')}" : '',
-                    $col['popup_values'] ? "allowed2apply:{$col['popup_values']},{$request->request->get($col['alias'])}" : '',
+                    $col['popup_values'] ? "allowed2apply:{$col['popup_values']},{$this->stringify($request->request->get($col['alias']))}" : '',
                 ]);
         }, $this->represent->columns);
     }

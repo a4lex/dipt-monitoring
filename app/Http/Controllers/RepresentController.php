@@ -27,6 +27,9 @@ class RepresentController extends Controller
             abort(403); ;
         }
 
+//        dd($represent->query->toSql());
+//        $datatable = datatables()->of($represent->query);
+
         if(request()->ajax()){
 
             if (request('_type') == 'query') {
@@ -89,9 +92,12 @@ class RepresentController extends Controller
      */
     public function store(StoreRepresentRequest $request)
     {
-        $request->getRepresent()
-            ->getInstance()
-            ->create($request->all());
+        $represent = $request->getRepresent()->getInstance();
+        $obj = $represent->create($request->all());
+
+        foreach ($represent->pivotes as $pivot) {
+            $obj->{$pivot}()->sync($request->get('snmp_templates'));
+        }
 
         return redirect($request->getRepresent()->name);
     }
@@ -138,10 +144,14 @@ class RepresentController extends Controller
      */
     public function update(UpdateRepresentRequest $request, $model, $id)
     {
-        $request->getRepresent()
+        $represent = $request->getRepresent()
             ->getInstance()
-            ->find($id)
-            ->update($request->all());
+            ->find($id);
+
+        $represent->update($request->all());
+        foreach ($represent->pivotes as $pivot) {
+            $represent->{$pivot}()->sync($request->get('snmp_templates'));
+        }
 
         return  back();
     }

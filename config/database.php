@@ -56,7 +56,12 @@ return [
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'prefix_indexes' => true,
-            'strict' => true,
+//            'strict' => true,
+//            Maybe problem in yara-tables  select count(*) as aggregate from (select....group by `id`) count_row_table);
+//            TRUE was  workaround for SQLSTATE[42000]: Syntax error or access violation:
+//              1140 Mixing of GROUP columns (MIN(),MAX(),COUNT(),...) with no GROUP columns
+//              is illegal if there is no GROUP BY clause
+            'strict' => false,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),

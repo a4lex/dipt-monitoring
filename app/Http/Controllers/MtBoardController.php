@@ -24,7 +24,7 @@ class MtBoardController extends Controller
             abort(403); ;
         }
 
-        return view('mtboard.create');
+        return view('mt_boards.create');
     }
 
 
@@ -44,7 +44,7 @@ class MtBoardController extends Controller
             ->with('wireslessIfaces')
             ->first();
 
-        return view('mtboard.edit')
+        return view('mt_boards.edit')
             ->with(compact(['mtBoard']));
     }
 

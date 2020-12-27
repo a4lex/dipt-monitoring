@@ -27,10 +27,16 @@ mix
         'resources/plugins/overlayScrollbars/css/OverlayScrollbars.min.css',
         'resources/plugins/daterangepicker/daterangepicker.css',
         'resources/plugins/datatables-bs4/css/dataTables.bootstrap4.css',
+        'resources/plugins/datatables-responsive/css/responsive.bootstrap4.css',
+        'resources/plugins/datatables-buttons/css/buttons.bootstrap4.css',
         'resources/plugins/select2/css/select2.min.css',
         'resources/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css',
         'resources/plugins/toastr/toastr.css',
-        'resources/plugins/chart.js/Chart.min.css'
+        'resources/plugins/chart.js/Chart.min.css',
+        'resources/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css',
+        'resources/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css',
+        'resources/plugins/bs-stepper/css/bs-stepper.min.css',
+        'resources/plugins/dropzone/min/dropzone.min.css'
     ], 'public/css/app.css')
     .scripts([
         'resources/plugins/jquery/jquery.min.js',
@@ -43,6 +49,23 @@ mix
         'resources/plugins/select2/js/select2.full.min.js',
         'resources/plugins/toastr/toastr.min.js',
         'resources/dist/js/adminlte.js',
-        'resources/plugins/chart.js/Chart.min.js'
+        'resources/plugins/chart.js/Chart.min.js',
+        'resources/plugins/datatables/jquery.dataTables.js',
+        'resources/plugins/datatables-bs4/js/dataTables.bootstrap4.js',
+        'resources/plugins/datatables-responsive/js/dataTables.responsive.js',
+        'resources/plugins/datatables-responsive/js/responsive.bootstrap4.js',
+        'resources/plugins/datatables-buttons/js/dataTables.buttons.js',
+        'resources/plugins/datatables-buttons/js/buttons.bootstrap4.js',
+        'resources/plugins/jszip/jszip.js',
+        'resources/plugins/pdfmake/pdfmake.js',
+        'resources/plugins/pdfmake/vfs_fonts.js',
+        'resources/plugins/datatables-buttons/js/buttons.html5.js',
+        'resources/plugins/datatables-buttons/js/buttons.print.js',
+        'resources/plugins/datatables-buttons/js/buttons.colVis.js',
+        'resources/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js',
+        'resources/plugins/inputmask/jquery.inputmask.min.js',
+        'resources/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js',
+        'resources/plugins/bootstrap-switch/js/bootstrap-switch.min.js',
+        'resources/plugins/bs-stepper/js/bs-stepper.min.js',
+        'resources/plugins/dropzone/min/dropzone.min.js'
     ], 'public/js/app.js');
-

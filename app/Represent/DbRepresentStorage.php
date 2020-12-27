@@ -102,7 +102,6 @@ class DbRepresentStorage extends AbstractRepresentStorage
         return false;
     }
 
-
     protected function init($model)
     {
         if ($this->inited)
@@ -138,6 +137,10 @@ class DbRepresentStorage extends AbstractRepresentStorage
         // TODO we need it to prevent situaltion when use dynamic join's columns
         $this->query->joins = array_reverse($this->query->joins ?? []);
 
+        // TODO think about
+        // Can be trouble in future and maybe - slow query
+        // Need for multi-select from pivote tables and GROUP_CONCAT
+        $this->query->groupBy($this->col_id);
 //        dd($model, $this->query->toSql());
 
         $this->inited=true;
@@ -152,8 +155,10 @@ class DbRepresentStorage extends AbstractRepresentStorage
      */
     protected function getModel($ident, $alias = '')
     {
+        // @ - join one to one
+        // [] - multiple join through pivot table
 
-        if (preg_match('/^(@)([\w\-]+)(:([\w\-]+))?$/', $ident, $matches)) {
+        if (preg_match('/^(@|\[\])([\w\-]+)(:([\w\-]+))?$/', $ident, $matches)) {
             $ident = $matches[2];
             $alias = $matches[4] ?? '';
         }

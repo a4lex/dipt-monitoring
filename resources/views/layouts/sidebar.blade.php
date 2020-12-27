@@ -25,7 +25,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column nav-compact nav-flat nav-legacy nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
-                <li class="nav-item has-treeview menu-open">
+                <li class="nav-item has-treeview {{ (request()->is(['users', 'roles', 'domains', 'snmp_templates'])) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -35,7 +35,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('/users') }}" class="nav-link active">
+                            <a href="{{ url('users') }}" class="nav-link {{ (request()->is('users')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Users </p>
                             </a>
@@ -43,7 +43,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('/roles') }}" class="nav-link active">
+                            <a href="{{ url('roles') }}" class="nav-link {{ (request()->is('roles')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Roles </p>
                             </a>
@@ -51,7 +51,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('/domains') }}" class="nav-link active">
+                            <a href="{{ url('domains') }}" class="nav-link {{ (request()->is('domains')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Domains </p>
                             </a>
@@ -60,7 +60,7 @@
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('/snmp_templates') }}" class="nav-link active">
+                            <a href="{{ url('snmp_templates') }}" class="nav-link {{ (request()->is('snmp_templates')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> SNMP Templates </p>
                             </a>
@@ -68,7 +68,34 @@
                     </ul>
                 </li>
 
-                <li class="nav-item has-treeview">
+                <li class="nav-item has-treeview {{ (request()->is(['devices', 'device_types'])) ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Other Devices
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ url('device_types') }}" class="nav-link {{ (request()->is('device_types')) ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Device Types </p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ url('devices') }}" class="nav-link {{ (request()->is('devices')) ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Devices </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="nav-item has-treeview {{ (request()->is(['mt_boards', 'mt_ifaces', 'mt_links'])) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -78,7 +105,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('/mt_boards') }}" class="nav-link active">
+                            <a href="{{ url('mt_boards') }}" class="nav-link {{ (request()->is('mt_boards')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Boards </p>
                             </a>
@@ -86,7 +113,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('/mt_ifaces') }}" class="nav-link active">
+                            <a href="{{ url('mt_ifaces') }}" class="nav-link {{ (request()->is('mt_ifaces')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Wireless Ifaces </p>
                             </a>
@@ -94,14 +121,14 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('/mt_links') }}" class="nav-link active">
+                            <a href="{{ url('mt_links') }}" class="nav-link {{ (request()->is('mt_links')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Wireless Links </p>
                             </a>
                         </li>
                     </ul>
-
                 </li>
+
                 <li class="nav-header">EXAMPLES</li>
                 <li class="nav-item">
                     <a href="pages/calendar.html" class="nav-link">
@@ -128,43 +155,43 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('/models') }}" class="nav-link active">
+                            <a href="{{ url('models') }}" class="nav-link {{ (request()->is('models')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Models </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/columns') }}" class="nav-link active">
+                            <a href="{{ url('columns') }}" class="nav-link {{ (request()->is('columns')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Columns </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/joins') }}" class="nav-link active">
+                            <a href="{{ url('joins') }}" class="nav-link {{ (request()->is('joins')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Joins </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/wheres') }}" class="nav-link active">
+                            <a href="{{ url('wheres') }}" class="nav-link {{ (request()->is('wheres')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Wheres </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/column_options') }}" class="nav-link active">
+                            <a href="{{ url('column_options') }}" class="nav-link {{ (request()->is('column_options')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Column Options </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/column_types') }}" class="nav-link active">
+                            <a href="{{ url('column_types') }}" class="nav-link {{ (request()->is('column_types')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Column Types </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/actions') }}" class="nav-link active">
+                            <a href="{{ url('actions') }}" class="nav-link {{ (request()->is('v')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Actions </p>
                             </a>

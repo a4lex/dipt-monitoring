@@ -32,8 +32,10 @@ class CreateMikrotik
     public function __invoke($host, $user = 'admin', $pass = 'P1nkMT4us', $port = 8728, $legacy = false)
     {
 
-        if (!is_array($pass))
+        if (!is_array($pass)) {
             $listPass = [$pass];
+            unset($pass);
+        }
 
         // fetch data from board via API
         $try = 0;

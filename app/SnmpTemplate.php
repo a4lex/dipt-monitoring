@@ -12,4 +12,8 @@ class SnmpTemplate extends Model
         'threshold', 'color', 'fill_bg',
     ];
 
+    public function device_types()
+    {
+        return $this->belongsToMany('App\DeviceType');
+    }
 }

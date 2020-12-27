@@ -34,4 +34,15 @@ abstract class RepresentRequest extends FormRequest
         return $this->represent = $this->represent
             ?? Represent::from($this->route('model'));
     }
+
+    /**
+     * Return imloded string from array
+     *
+     * @param $args
+     * @return string
+     */
+    protected   function stringify($args)
+    {
+        return is_array($args) ? implode(',', $args) : $args;
+    }
 }

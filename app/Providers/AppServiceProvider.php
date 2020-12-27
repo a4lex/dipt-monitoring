@@ -28,11 +28,20 @@ class AppServiceProvider extends ServiceProvider
     {
         Validator::extend('allowed2apply', function ($attribute, $value, $parameters, $validator) {
 
-                if (count($parameters) != 2 or ! preg_match('/^\@/', $parameters[0])) {
-                    return false;
+                // join one to one
+                if (count($parameters) == 2 and preg_match('/^\@/', $parameters[0])) {
+                    return Represent::from($parameters[0])
+                        ->exists($parameters[1]);
+
+                // join through pivot table
+                } else if (count($parameters) >= 1 and preg_match('/^\[\]/', $parameters[0])) {
+                     return Represent::from($parameters[0])
+                         ->exists(array_slice($parameters,1));
                 }
 
-                return Represent::from($parameters[0])->exists($parameters[1]);
+                return false;
+
+
 
             }, "Can not find selected :attribute"
         );

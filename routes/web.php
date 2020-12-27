@@ -34,6 +34,12 @@ Route::middleware(['auth'])->group(function () {
         return view('app');
     });
 
+    //
+    //  Devices Routes
+    //
+    Route::get('/devices/create',       'DeviceController@create');
+    Route::post('/devices',             'DeviceController@store');
+
 
     //
     //  MtBoards Routes
@@ -43,14 +49,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/mt_boards',            'MtBoardController@store');
 
     //
-    //  MtLinks Routes
-    //
-    Route::get('/mt_links/chart',      'MtLinkController@chart');
-
-    //
     //  RRD DB Routes
     //
-    Route::get('/rrd',                  'RRDConteroller@getRRDData');
+    Route::get('/rrd',                  'RRDController@getRRDData');
 
     //
     //  Represent Main Routes
