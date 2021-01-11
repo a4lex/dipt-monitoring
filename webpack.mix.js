@@ -18,7 +18,7 @@ mix
     // .styles('resources/dist/css/adminlte.css', 'public/css/app.css')
     .sourceMaps(productionSourceMaps, 'source-map')
     .styles([
-        'resources/dist/css/ownstyle.css',
+        'resources/dist/css/ownslyle.css',
         'resources/plugins/fontawesome-free/css/all.min.css',
         'resources/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css',
         'resources/plugins/icheck-bootstrap/icheck-bootstrap.min.css',
@@ -61,7 +61,7 @@ mix
         'resources/plugins/pdfmake/vfs_fonts.js',
         'resources/plugins/datatables-buttons/js/buttons.html5.js',
         'resources/plugins/datatables-buttons/js/buttons.print.js',
-        'resources/plugins/datatables-buttons/js/buttons.colVis.js',
+        'resources/plugins/datatables-buttons/js/buttons.colVis.min.js',
         'resources/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js',
         'resources/plugins/inputmask/jquery.inputmask.min.js',
         'resources/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js',

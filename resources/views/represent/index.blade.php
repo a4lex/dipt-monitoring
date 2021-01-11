@@ -2,24 +2,52 @@
 
 @section('content')
 
+    <style>
+        table tr.search th {
+            border-bottom: 0px solid #ffffff;
+            border: 0px solid #ffffff;
+        }
+        table tr.search th input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+        .dataTables_scroll {
+            margin-top: -7px;
+        }
+    </style>
     @includeIf($represent->name . '.extra.index_top')
 
     <div class="row">
         <div class="col-12">
             <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h3 class="card-title">{{ $represent->label }}</h3>
-                    @if($represent->can('create'))
-                    <a href="{{ $represent->name }}/create" class="button float-right"><i class="far fa-lg fa-plus-square"></i></a>
-                    @endif
+                <div class="card-header p-2">
+                    <h3 class="card-title m-1">
+                        {{ $represent->label }}, showing <b id="title_from"></b> to <b id="title_to"></b> of <b id="title_of"></b> entries
+                    </h3>
+                    <div id="represent_buttons" class="float-right"></div>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0">
                     <div id="represent_wrapper" class="dataTables_wrapper represent-bootstrap4">
 
                         <div class="row">
                             <div class="col-sm-12">
                                 <table id="represent" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="represent_info">
                                     <thead>
+                                    <tr class="search">
+                                        @foreach ($represent->columns as $key=>$col)
+                                            @if ($col['searchable'])
+                                                <th>
+                                                    <input type="text" id="filter_{{$loop->index}}" placeholder="Search by {{$col['label']}}" />
+                                                </th>
+                                            @else
+                                                <th></th>
+                                            @endif
+                                        @endforeach
+                                        @if($represent->canAny(['edit', 'delete']))
+                                            <th></th>
+                                        @endif
+                                    </tr>
                                     <tr role="row">
                                         @foreach ($represent->columns as $key=>$col)
                                             <th class="sorting" tabindex="0" rowspan="1" colspan="1" aria-sort="ascending">{{$col['label']}}</th>
@@ -43,11 +71,8 @@
 @endsection
 
 @push('scripts')
-{{--    <script src="{{ asset('https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js') }}"></script>--}}
-
     <script type="text/javascript">
-        $(document).ready(function() {
-
+        $(function() {
             $.extend( $.fn.dataTableExt.oStdClasses, {
                 'sFilterInput': 'form-control form-control-sm',
                 'sLengthSelect': 'custom-select custom-select-sm form-control form-control-sm',
@@ -56,7 +81,6 @@
             // Edit record
             $('#represent').on('click', 'button.edit_row', function (e) {
                 e.preventDefault();
-
                 var id = e.currentTarget.id.substring(4);
                 window.location.href = '/{{ $represent->name }}/'  + id + '/edit';
             } );
@@ -64,9 +88,7 @@
             // Delete a record
             $('#represent').on('click', 'button.delete_row', function (e) {
                 e.preventDefault();
-
                 var id = e.currentTarget.id.substring(4);
-
                 $(this).attr("disabled", true);
 
                 toastr.warning("Delete item? &nbsp; <button type='button' id='confirm_del' " +
@@ -90,19 +112,38 @@
                         })
                     }
                 });
+            });
 
+            $('#represent').on('column-visibility.dt', function ( e, settings, column, state ) {
+                $.post('{{ url('change_visibility') }}', {
+                        column_id:  settings.aoColumns[column].sql_id,
+                        visible:    (state ? 1 : 0),
+                });
             } );
 
             $('#represent').DataTable( {
                 renderer: 'bootstrap',
                 pagingType: 'full_numbers',
                 buttons: [
-                    'colvis',
-                    'excel',
-                    'print'
+                    // "copy", "csv", "excel", "pdf", "print",
+                    {
+                        extend: 'colvis',
+                        className: 'btn btn-default btn-sm'
+                    },
+                    @if($represent->can('create'))
+                    {
+                        text: 'Create',
+                        className: 'btn btn-default btn-sm',
+                        action: function ( e, dt, node, config ) {
+                            window.open("{{ $represent->name }}/create", '_blank').focus();
+                        }
+                    },
+                    @endif
                 ],
-                sDom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>tr<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>><"clear">',
+                // sDom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>tr<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>><"clear">',
+                sDom: 'tr<"row mx-3 my-2"<"col-sm-12 col-md-5"l> <"col-sm-12 col-md-7"p>> <"clear">',
                 lengthMenu: [10, 20, 50, 100, 500, 1000],
+                // searching: false,
                 language: {
                     decimal:        "",
                     emptyTable:     'No data available in table',
@@ -143,8 +184,9 @@
                     @foreach ($represent->columns as $key => $col)
                     {
                         data:       '{{ $key }}',
+                        sql_id:     '{{ $col['sql_id'] }}',
                         className:  'col-checker text-nowrap {{ $col['styles'] }}',
-                        {{--visible:    {{ $col['visible'] ? 'true' : 'false' }},--}}
+                        visible:    {{ $col['visible'] ? 'true' : 'false' }},
                         orderable:  {{ $col['orderable'] ? 'true' : 'false' }},
                     },
                     @endforeach
@@ -157,26 +199,44 @@
                         render: function ( data, type, row, meta ) {
                             return '' +
                             @if($represent->can('edit'))
-                            // '<button class="btn btn-xs py-0 edit_row" id="row_' + row.id + '"> <i class="far fa-lg fa-edit"></i> </button>' +
                                 '<a class="btn btn-xs py-0 edit_row" href="{{ url("/{$represent->name}") }}/' + row.id + '/edit"> <i class="far fa-lg fa-edit"></i> </a>' +
                             @endif
                             @if($represent->can('delete'))
-                            '<button class="btn btn-xs py-0 delete_row" id="row_' + row.id + '"> <i class="far fa-lg fa-trash-alt"></i> </button>' +
+                                '<button class="btn btn-xs py-0 delete_row" id="row_' + row.id + '"> <i class="far fa-lg fa-trash-alt"></i> </button>' +
                             @endif
                             '';
                         }
                     },
                     @endif
                 ],
-                'ajax': {
+                ajax: {
                     type : 'GET',
                     url : '{{ url('/' . $represent->name) }}',
-                    // TODO bad idea use initExtraTop & initExtraBottom
                     dataSrc : function (json) {
-                        if (typeof initExtraTop != 'undefined') initExtraTop(json.data);
-                        if (typeof initExtraBottom != 'undefined') initExtraBottom(json.data);
+                        $('#title_from').html(parseInt(json.input.start,10) + 1);
+                        $('#title_to').html(parseInt(json.input.start) + json.data.length);
+                        $('#title_of').html(json.recordsFiltered);
                         return json.data;
                     }
+                },
+                initComplete: function () {
+                    var that = this.api();
+                    that.buttons().container().appendTo('#represent_buttons');
+                    that.columns().every(function (colIdx) {
+                        $('#filter_' + colIdx).on('keyup change clear', function () {
+                            if (that.column(colIdx).search() !== this.value) {
+                                that.column(colIdx)
+                                    .search(this.value)
+                                    .draw()
+                            }
+                        } );
+                    } );
+                },
+                // TODO bad idea use initExtraTop & initExtraBottom
+                drawCallback : function (settings) {
+                    if (typeof initExtraTop !== 'undefined') setTimeout(initExtraTop(settings.aoData), 0);
+                    if (typeof initExtraBottom !== 'undefined') setTimeout(initExtraBottom(settings.aoData), 0);
+                    return true;
                 }
             });
         });

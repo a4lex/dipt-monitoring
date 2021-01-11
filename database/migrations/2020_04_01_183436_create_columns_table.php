@@ -29,6 +29,7 @@ class CreateColumnsTable extends Migration
             $table->boolean('required')->default(false);
 
             $table->boolean('orderable')->default(true);
+            $table->boolean('searchable')->default(true);
             $table->string('styles', 128)->default('');
             $table->string('rules', 128)->default('');
 

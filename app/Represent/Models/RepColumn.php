@@ -13,7 +13,7 @@ class RepColumn extends Model
         'id', 'model_id', 'type_id', 'name', 'alias',
         'label', 'def_value', 'popup_values', 'sort',
         'singular', 'required', 'orderable', 'styles',
-        'rules',
+        'rules', 'searchable',
     ];
 
     public function __construct(array $attributes = [])
@@ -31,5 +31,10 @@ class RepColumn extends Model
     public function options()
     {
         return $this->hasMany(RepColumnOption::class, 'column_id');
+    }
+
+    public function visibility()
+    {
+        return $this->hasMany(RepColumnVisibility::class, 'column_id');
     }
 }

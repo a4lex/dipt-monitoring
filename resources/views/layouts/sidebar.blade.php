@@ -3,9 +3,9 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-        <img src="http://unresolved.donbass.net/public/favicon.ico" alt="just for fun" class="brand-image img-square elevation-3"
+        <img src="{{ asset('img/4l-logo.jpg') }}" alt="just for fun" class="brand-image img-square elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">just for fun <b>4lex</b></span>
+        <span class="brand-text font-weight-light">just for fun</span>
     </a>
 
     <!-- Sidebar -->

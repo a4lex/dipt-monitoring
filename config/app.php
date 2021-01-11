@@ -180,7 +180,6 @@ return [
          */
 
         App\Represent\RepresentServiceProvider::class,
-
     ],
 
     /*

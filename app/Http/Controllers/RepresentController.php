@@ -8,6 +8,7 @@ use App\Represent\Requests\UpdateRepresentRequest;
 use App\Represent\Represent;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Access\Response;
 
@@ -39,7 +40,11 @@ class RepresentController extends Controller
                     ->toJson();
 
             } else {
-                $datatable = datatables()->of($represent->query);
+                // TODO think about wrapper raw query...
+                $datatable = datatables()->of(
+//                    $represent->query->toSql()
+                    DB::table( DB::raw("({$represent->query->toSql()}) as represent"))
+                );
 
                 $rawColumns = [];
 
@@ -61,6 +66,8 @@ class RepresentController extends Controller
             }
 
         } else {
+//            dd(\request()->all());
+
             return view('represent.index')
                 ->with(compact(['represent']));
         }
@@ -95,8 +102,11 @@ class RepresentController extends Controller
         $represent = $request->getRepresent()->getInstance();
         $obj = $represent->create($request->all());
 
-        foreach ($represent->pivotes as $pivot) {
-            $obj->{$pivot}()->sync($request->get('snmp_templates'));
+        dd($request->all());
+        if(isset($represent->pivotes)) {
+            foreach ($represent->pivotes as $pivot) {
+                $obj->{$pivot}()->sync($request->get('snmp_templates'));
+            }
         }
 
         return redirect($request->getRepresent()->name);
@@ -149,8 +159,11 @@ class RepresentController extends Controller
             ->find($id);
 
         $represent->update($request->all());
-        foreach ($represent->pivotes as $pivot) {
-            $represent->{$pivot}()->sync($request->get('snmp_templates'));
+
+        if(isset($represent->pivotes)) {
+            foreach ($represent->pivotes as $pivot) {
+                $represent->{$pivot}()->sync($request->get('snmp_templates'));
+            }
         }
 
         return  back();

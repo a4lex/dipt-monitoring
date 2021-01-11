@@ -130,7 +130,14 @@ class DbRepresentStorage extends AbstractRepresentStorage
                     '=', "{$col['name']}"
                 );
             } else {
-                $this->query->addSelect(DB::raw("{$col['name']} as {$col['alias']}"));
+                // TODO Bad style, we should create some another method to make cast
+                switch ($col['type_id']) {
+                    case '9':
+                        $this->query->addSelect(DB::raw("INET_NTOA({$col['name']}) as {$col['alias']}"));
+                        break;
+                    default:
+                        $this->query->addSelect(DB::raw("{$col['name']} as {$col['alias']}"));
+                }
             }
         }
 
@@ -177,7 +184,10 @@ class DbRepresentStorage extends AbstractRepresentStorage
                         'type' => function($query) { },
                         'options' => function($query) {
                             $query->where('column_options.role_id', '=', auth()->user()->role_id);
-                        }
+                        },
+                        'visibility' => function($query) {
+                            $query->where('column_visibility.user_id', '=', auth()->user()->id);
+                        },
                     ])->orderBy('sort');
                 },
                 'actions' => function($query) {
@@ -290,15 +300,15 @@ class DbRepresentStorage extends AbstractRepresentStorage
     {
         return array_reduce($columns,
             function ($result, $column) use ($changePref) {
-
-                if (! isset($column['options'][0]['visible']) or !$column['options'][0]['visible']) {
-                    return $result;
-                }
-
+//                if (! isset($column['options'][0]['visible']) or !$column['options'][0]['visible']) {
+//                    return $result;
+//                }
+                $column['sql_id'] = $column['id'];
                 $column['name'] = $changePref($column['name']);
                 $column['editable'] = $column['options'][0]['editable'] ?? false;
-//                $column['visible'] = $column['options'][0]['visible'] ?? false;
+                $column['visible'] = $column['visibility'][0]['visible'] ?? true;
                 $column['view'] = $column['type']['view'] ?? 'unknown';
+                unset($column['visibility']);
                 unset($column['options']);
                 unset($column['type']);
                 $result[$column['alias']] = $column;

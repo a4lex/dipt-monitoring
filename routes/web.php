@@ -40,18 +40,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/devices/create',       'DeviceController@create');
     Route::post('/devices',             'DeviceController@store');
 
-
-    //
-    //  MtBoards Routes
-    //
-    Route::get('/mt_boards/{id}/edit',   'MtBoardController@edit');
-    Route::get('/mt_boards/create',      'MtBoardController@create');
-    Route::post('/mt_boards',            'MtBoardController@store');
-
     //
     //  RRD DB Routes
     //
     Route::get('/rrd',                  'RRDController@getRRDData');
+
+    //
+    //  Column Visibility Routes
+    //
+    Route::post('/change_visibility',   'ColumnVisibilityController@change_visibility');
 
     //
     //  Represent Main Routes

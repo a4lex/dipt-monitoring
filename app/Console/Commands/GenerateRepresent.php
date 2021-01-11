@@ -21,10 +21,10 @@ class GenerateRepresent extends Command
      */
     protected $signature = 'represent:generate ' .
         '{table : DB table name} ' .
-        '{--r|represent=} ' .
+        '{--r|represent= : Represent name} ' .
         '{--l|label= : Represent label} ' .
-        '{--m|model= : Model name} ' .
-        '{--c|controller= : Model controller}';
+        '{--m|model= : Represent model path} ' .
+        '{--c|controller= : Represent controller path}';
 
     /**
      * The console command description.
@@ -64,6 +64,7 @@ class GenerateRepresent extends Command
         //php artisan represent:generate users
 
         $table = $this->argument('table');
+        $model_name = $this->option('represent') ?? $table;
 
         // TODO avoid SQL injection
         $exist = DB::select("SHOW TABLES LIKE '{$table}'");
@@ -74,8 +75,8 @@ class GenerateRepresent extends Command
         }
 
         $model_data = [
-            'name'  => $table,
-            'label' => preg_replace('/_/', ' ', Str::title($table)),
+            'name'  => $model_name,
+            'label' => preg_replace('/_/', ' ', Str::title($model_name)),
             'ref_table' => $table,
             'alias' => $table[0] . '1',
             'col_id' => 'id',

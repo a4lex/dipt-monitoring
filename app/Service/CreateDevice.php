@@ -21,6 +21,12 @@ class CreateDevice
             'model'     => '1.0.8802.1.1.2.1.3.4.0',
 //            'mac'       => '1.0.8802.1.1.2.1.3.2.0', // TODO scrol down
         ),
+        '3' => array(
+            'name'      => '1.3.6.1.2.1.1.5.0', //'SNMPv2-MIB::sysName.0',
+            'location'  => '1.3.6.1.2.1.1.6.0', // 'SNMPv2-MIB::sysLocation.0',
+            'firmware'  => '',
+            'mac'       => '1.3.6.1.4.1.41112.1.3.2.1.45.1', // 'SNMPv2-SMI::enterprises.41112.1.3.2.1.45.1',
+        ),
     );
 
     protected $ifWlanList;

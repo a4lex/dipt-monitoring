@@ -14,12 +14,14 @@ return [
     ],
 
     'table' => [
-        'actions'       => env('RRS_DB_COL_TYPES','actions'),
-        'models'        => env('RRS_DB_MODELS', 'models'),
-        'joins'         => env('RRS_DB_JOINS','joins'),
-        'wheres'        => env('RRS_DB_WHERES','wheres'),
-        'columns'       => env('RRS_DB_COLUMNS','columns'),
-        'column_types'  => env('RRS_DB_COL_TYPES','column_types'),
-        'column_options'=> env('RRS_DB_COL_OPTIONS','column_options'),
+        'actions'           => env('RRS_DB_COL_TYPES','actions'),
+        'models'            => env('RRS_DB_MODELS', 'models'),
+        'joins'             => env('RRS_DB_JOINS','joins'),
+        'wheres'            => env('RRS_DB_WHERES','wheres'),
+        'columns'           => env('RRS_DB_COLUMNS','columns'),
+        'column_types'      => env('RRS_DB_COL_TYPES','column_types'),
+        'column_options'    => env('RRS_DB_COL_OPTIONS','column_options'),
+        'column_visibility' => env('RRS_DB_COL_VISIBILITY','column_visibility'),
+
     ],
 ];

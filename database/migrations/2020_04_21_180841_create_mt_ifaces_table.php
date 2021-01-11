@@ -15,7 +15,7 @@ class CreateMtIfacesTable extends Migration
     {
         Schema::create('mt_ifaces', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('mt_board_id')->nullable(false);
+            $table->unsignedBigInteger('device_id')->nullable(false);
 
             $table->string('name', 32);
             $table->string('radio_name', 64)->unique(true);
@@ -30,9 +30,9 @@ class CreateMtIfacesTable extends Migration
 
             $table->timestamps();
 
-            $table->foreign('mt_board_id')
+            $table->foreign('device_id')
                 ->references('id')
-                ->on('mt_boards')
+                ->on('devices')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
