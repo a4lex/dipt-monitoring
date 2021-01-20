@@ -48,33 +48,35 @@
             "style='min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 532px;'></canvas>" +
             "                        </div>\n";
 
-        // const CHART_LINE_OPTION = {
-        //     maintainAspectRatio : false,
-        //     responsive : true,
-        //     datasetFill : false,
-        //     tooltips : {mode : 'index', intersect : false },
-        //     hover : {mode : 'nearest', intersect : false },
-        //     legend: { display: true, },
-        //     scales: {
-        //         xAxes: [{
-        //             gridLines : {
-        //                 display : false,
-        //             },
-        //         }],
-        //         yAxes: [{
-        //             gridLines : {
-        //                 display : true,
-        //                 ticks : {suggestedMin : 0},
-        //             },
-        //             scaleLabel:{ display : true, labelString : 'dB'},
-        //         }]
-        //     }
-        // };
+        const CHART_LINE_OPTION = {
+            maintainAspectRatio : false,
+            responsive : true,
+            datasetFill : false,
+            tooltips : {mode : 'index', intersect : false},
+            hover : {mode : 'nearest', intersect : false },
+            legend: {
+                display: true,
+            },
+            scales: {
+                xAxes: [{
+                    gridLines : {
+                        display : false,
+                    },
+                }],
+                yAxes: [{
+                    gridLines : {
+                        display : true,
+                        ticks : {suggestedMin : 0},
+                    },
+                    scaleLabel:{ display : true, labelString : 'dB'},
+                }]
+            }
+        };
 
         const chartGroups = {
-        @foreach(\App\DeviceType::all() as $deviceType)
-            '{{$deviceType->name}}' : {!! $deviceType->getChartsMaps() !!},
-        @endforeach
+            @foreach(\App\DeviceTypeIfaceType::all() as $devIfType)
+            '{{$devIfType->device_type_id . '-' . $devIfType->iface_type_id   }}' : {!! $devIfType->getChartsMaps() !!},
+            @endforeach
         };
 
         // TODO very bad idea, but i can't get access to this data...
@@ -98,12 +100,12 @@
             for(var id in dataDT) {
 
                 var row = dataDT[id]._aData;
-                if (row.device_type_id == undefined) {
+                if (row.device_type_id == undefined || chartGroups[row.device_type_id] == undefined) {
                     continue;
                 }
                 var divID = 'link_div_' + row.id;
                 var chartGroup = chartGroups[row.device_type_id];
-                var title = row.name + ' [' + row.ip + '] - ' + row.location;
+                var title = row.device_id + ' [' + row.name + '] - ' + row.iface_type_id;
 
                 var div = document.createElement("div");
                 div.id = divID;
@@ -131,9 +133,10 @@
                         '#'+chartID,
                         // chartGroup[i].vlabel,
                         {   id: row.id,
-                            source: 'devices',
+                            source: 'ifaces',
                             names: chartGroup[i].names,
-                            period: $('#rrdPeriod').val() }
+                            period: $('#rrdPeriod').val(),
+                        }
                     );
                 }
             }

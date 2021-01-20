@@ -15,6 +15,10 @@
         .dataTables_scroll {
             margin-top: -7px;
         }
+
+        .ws-normal {
+            white-space: normal;
+        }
     </style>
     @includeIf($represent->name . '.extra.index_top')
 
@@ -185,7 +189,7 @@
                     {
                         data:       '{{ $key }}',
                         sql_id:     '{{ $col['sql_id'] }}',
-                        className:  'col-checker text-nowrap {{ $col['styles'] }}',
+                        className:  'col-checker {{ $col['styles'] }}',
                         visible:    {{ $col['visible'] ? 'true' : 'false' }},
                         orderable:  {{ $col['orderable'] ? 'true' : 'false' }},
                     },

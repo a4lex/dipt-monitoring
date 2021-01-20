@@ -25,11 +25,11 @@
             <ul class="nav nav-pills nav-sidebar flex-column nav-compact nav-flat nav-legacy nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
-                <li class="nav-item has-treeview {{ (request()->is(['users', 'roles', 'domains', 'snmp_templates'])) ? 'menu-open' : '' }}">
+                <li class="nav-item has-treeview {{ (request()->is(['users*', 'roles*', 'domains*', 'snmp_templates*'])) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Dashboard
+                            Configuration
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -68,11 +68,11 @@
                     </ul>
                 </li>
 
-                <li class="nav-item has-treeview {{ (request()->is(['devices', 'device_types'])) ? 'menu-open' : '' }}">
+                <li class="nav-item has-treeview {{ (request()->is(['devices*', 'device_ifaces*', 'device_types*', 'init_variables*', 'device_type_iface_types*'])) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Other Devices
+                            Devices
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -86,16 +86,40 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="{{ url('init_variables') }}" class="nav-link {{ (request()->is('init_variables')) ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Devices Initial Vars </p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ url('device_type_iface_types') }}" class="nav-link {{ (request()->is('device_type_iface_types')) ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Interface Types </p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
                             <a href="{{ url('devices') }}" class="nav-link {{ (request()->is('devices')) ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p> Devices </p>
                             </a>
                         </li>
                     </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ url('device_ifaces') }}" class="nav-link {{ (request()->is('device_ifaces')) ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Device Iterfaces </p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
 
-                <li class="nav-item has-treeview {{ (request()->is(['mt_boards', 'mt_ifaces', 'mt_links'])) ? 'menu-open' : '' }}">
+                <li class="nav-item has-treeview {{ (request()->is(['mt_ifaces*', 'mt_links*'])) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -103,14 +127,6 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ url('mt_boards') }}" class="nav-link {{ (request()->is('mt_boards')) ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p> Boards </p>
-                            </a>
-                        </li>
-                    </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ url('mt_ifaces') }}" class="nav-link {{ (request()->is('mt_ifaces')) ? 'active' : '' }}">

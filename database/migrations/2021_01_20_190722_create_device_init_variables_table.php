@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDeviceTypeSnmpTemplateTable extends Migration
+class CreateDeviceInitVariablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,21 @@ class CreateDeviceTypeSnmpTemplateTable extends Migration
      */
     public function up()
     {
-        Schema::create('device_type_snmp_template', function (Blueprint $table) {
+        Schema::create('init_variables', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('device_type_id')->nullable(false);
-            $table->unsignedBigInteger('snmp_template_id')->nullable(false);
 
-            $table->unique(['device_type_id', 'snmp_template_id'], 'device_type_snmp_id');
+            $table->unsignedBigInteger('device_type_id')->nullable(false);
+            $table->enum('name', ['name', 'location', 'firmware', 'mac', 'model', ])
+                ->nullable(false)->default('name');
+            $table->string('query', 255)->nullable(false);
+
+            $table->timestamps();
+
+            $table->unique(['device_type_id', 'name']);
 
             $table->foreign('device_type_id')
                 ->references('id')
                 ->on('device_types')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
-
-            $table->foreign('snmp_template_id')
-                ->references('id')
-                ->on('snmp_templates')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -41,6 +40,6 @@ class CreateDeviceTypeSnmpTemplateTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('device_type_snmp_template');
+        Schema::dropIfExists('init_variables');
     }
 }

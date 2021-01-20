@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDeviceTypeSnmpTemplateTable extends Migration
+class CreateDeviceTypeIfaceTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateDeviceTypeSnmpTemplateTable extends Migration
      */
     public function up()
     {
-        Schema::create('device_type_snmp_template', function (Blueprint $table) {
+        Schema::create('device_type_iface_types', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('device_type_id')->nullable(false);
-            $table->unsignedBigInteger('snmp_template_id')->nullable(false);
+            $table->unsignedBigInteger('iface_type_id')->nullable(false);
 
-            $table->unique(['device_type_id', 'snmp_template_id'], 'device_type_snmp_id');
+            $table->unique(['device_type_id', 'iface_type_id'], 'device_iface_type');
 
             $table->foreign('device_type_id')
                 ->references('id')
@@ -26,9 +26,9 @@ class CreateDeviceTypeSnmpTemplateTable extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            $table->foreign('snmp_template_id')
+            $table->foreign('iface_type_id')
                 ->references('id')
-                ->on('snmp_templates')
+                ->on('iface_types')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -41,6 +41,6 @@ class CreateDeviceTypeSnmpTemplateTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('device_type_snmp_template');
+        Schema::dropIfExists('device_type_iface_types');
     }
 }

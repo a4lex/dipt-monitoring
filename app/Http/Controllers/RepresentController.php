@@ -6,6 +6,7 @@ use App\Represent\Requests\DestroyRepresentRequest;
 use App\Represent\Requests\StoreRepresentRequest;
 use App\Represent\Requests\UpdateRepresentRequest;
 use App\Represent\Represent;
+use App\Traits\ManyToManyRelation;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -101,12 +102,8 @@ class RepresentController extends Controller
     {
         $represent = $request->getRepresent()->getInstance();
         $obj = $represent->create($request->all());
-
-        dd($request->all());
-        if(isset($represent->pivotes)) {
-            foreach ($represent->pivotes as $pivot) {
-                $obj->{$pivot}()->sync($request->get('snmp_templates'));
-            }
+        if (in_array(ManyToManyRelation::class, class_uses($obj))) {
+            $obj->sync_relations($request);
         }
 
         return redirect($request->getRepresent()->name);
@@ -154,16 +151,10 @@ class RepresentController extends Controller
      */
     public function update(UpdateRepresentRequest $request, $model, $id)
     {
-        $represent = $request->getRepresent()
-            ->getInstance()
-            ->find($id);
-
-        $represent->update($request->all());
-
-        if(isset($represent->pivotes)) {
-            foreach ($represent->pivotes as $pivot) {
-                $represent->{$pivot}()->sync($request->get('snmp_templates'));
-            }
+        $obj = $request->getRepresent()->getInstance()->findOrFail($id);
+        $obj->update($request->all());
+        if (in_array(ManyToManyRelation::class, class_uses($obj))) {
+            $obj->sync_relations($request);
         }
 
         return  back();
@@ -179,10 +170,7 @@ class RepresentController extends Controller
      */
     public function destroy(DestroyRepresentRequest $request, $model, $id)
     {
-        $request->getRepresent()
-            ->getInstance()
-            ->find($id)
-            ->delete();
+        $request->getRepresent()->getInstance()->find($id)->delete();
 
         if ($request->isJson() or $request->ajax()) {
             return response()->json([

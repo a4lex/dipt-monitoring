@@ -300,9 +300,6 @@ class DbRepresentStorage extends AbstractRepresentStorage
     {
         return array_reduce($columns,
             function ($result, $column) use ($changePref) {
-//                if (! isset($column['options'][0]['visible']) or !$column['options'][0]['visible']) {
-//                    return $result;
-//                }
                 $column['sql_id'] = $column['id'];
                 $column['name'] = $changePref($column['name']);
                 $column['editable'] = $column['options'][0]['editable'] ?? false;

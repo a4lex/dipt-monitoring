@@ -134,6 +134,7 @@
         var dataDT;
         var initExtraBottom = function (data) {
             dataDT = data;
+            // console.log(dataDT);
             initChart();
         }
 
@@ -154,8 +155,11 @@
 
             for(var id in dataDT) {
 
-                var divID = 'link_div_' + dataDT[id].id;
-                var title = dataDT[id].b1_name + ' - ' + dataDT[id].b2_name;
+
+                var row = dataDT[id]._aData
+
+                var divID = 'link_div_' + row.id;
+                var title = row.d1_name + ' - ' + row.d2_name;
 
                 var div = document.createElement("div");
                 div.id = divID;
@@ -168,7 +172,7 @@
                     if (!$('#chart_' + i).prop('checked')) continue;
 
                     activeChart ++;
-                    var chartID = 'chart_' + dataDT[id].id + '_' + i;
+                    var chartID = 'chart_' + row.id + '_' + i;
                     htmlTemplate = htmlTemplate.replace('__ID__', chartID);
                 }
 
@@ -182,28 +186,34 @@
                 for(var i in chartGroups) {
                     if (!$('#chart_' + i).prop('checked')) continue;
 
-                    var chartID = 'chart_' + dataDT[id].id + '_' + i;
+                    var chartID = 'chart_' + row.id + '_' + i;
                     loadDataset(
                         '#'+chartID,
-                        chartGroups[i].vlabel,
-                        {   id: dataDT[id].id,
+                        // chartGroups[i].vlabel,
+                        {   id: row.id,
+                            source: 'devices',
                             names: chartGroups[i].names,
                             period: $('#rrdPeriod').val() }
                     );
                 }
             }
         }
-
-
-        var loadDataset = function (canvas, vlabel, data) {
-            $.get('https://dionis.donbass.net/rrd', data,
-                function(dataset){
-                    CHART_LINE_OPTION.scales.yAxes[0].scaleLabel.labelString = vlabel;
+        var loadDataset = function (canvas, /*vlabel,*/ data) {
+            $.get('{{ url('rrd') }}', data,
+                function(responce){
+                    // CHART_LINE_OPTION.scales.yAxes[0].scaleLabel.labelString = dataset['vlabel'];
                     new Chart($(canvas).get(0).getContext('2d'), {
                         type: 'line',
-                        data: dataset,
-                        options: CHART_LINE_OPTION,
+                        data: responce.data,
+                        options: responce.options,
                     })
+                })
+                .fail(function() {
+                    // if($(canvas).closest('.card-body').find('.chart').length !== 0) {
+                    $(canvas).closest('.chart').remove();
+                    // } else {
+                    //     $(canvas).closest('.card').remove();
+                    // }
                 });
         }
     </script>
