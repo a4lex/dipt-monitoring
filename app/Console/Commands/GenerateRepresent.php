@@ -102,7 +102,7 @@ class GenerateRepresent extends Command
                 'singular' => '0',
                 'required' => $field->Null == 'NO' ? 1 : 0,
                 'orderable' => '1',
-                'styles' => 'text-center',
+                'styles' => 'text-center text-nowrap',
                 'rules' => ''
             ];
 

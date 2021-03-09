@@ -44,8 +44,8 @@ class RRDController extends Controller
 
 
     const OPTIONS = array(
-        'maintainAspectRatio' => false,
         'responsive' => true,
+        'maintainAspectRatio' => false,
         'datasetFill' => false,
         'tooltips' => array('mode' => 'index', 'intersect' => false),
         'hover' => array('mode' => 'nearest', 'intersect' => false ),

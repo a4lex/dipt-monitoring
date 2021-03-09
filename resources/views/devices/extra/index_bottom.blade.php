@@ -1,4 +1,8 @@
-
+<style>
+    .btn-primary-outline {
+        background-color: transparent;
+    }
+</style>
 <div class="row">
     <div class="col-12-lg">
         <div class="form-inline form-group mx-3">
@@ -43,33 +47,13 @@
             "            </div>";
 
         const CHART_CHILD_TEMPLATE = "" +
-            "                        <div class='chart __COL__ col-sm-12'>" +
+            "                        <div class='chart __COL__ col-sm-12' default-size='__COL__'>" +
+            "                            <button type='button' class='btn btn-sm btn-primary-outline position-absolute ch_size' style='right: 0;'>" +
+            "                                <i class='fas fa-expand-arrows-alt'></i>" +
+            "                            </button>" +
             "                            <canvas id='__ID__' height='500' class='chartjs-render-monitor' " +
             "style='min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 532px;'></canvas>" +
             "                        </div>\n";
-
-        // const CHART_LINE_OPTION = {
-        //     maintainAspectRatio : false,
-        //     responsive : true,
-        //     datasetFill : false,
-        //     tooltips : {mode : 'index', intersect : false },
-        //     hover : {mode : 'nearest', intersect : false },
-        //     legend: { display: true, },
-        //     scales: {
-        //         xAxes: [{
-        //             gridLines : {
-        //                 display : false,
-        //             },
-        //         }],
-        //         yAxes: [{
-        //             gridLines : {
-        //                 display : true,
-        //                 ticks : {suggestedMin : 0},
-        //             },
-        //             scaleLabel:{ display : true, labelString : 'dB'},
-        //         }]
-        //     }
-        // };
 
         const chartGroups = {
         @foreach(\App\DeviceType::all() as $deviceType)
@@ -122,14 +106,13 @@
                 }
 
                 $('#'+divID).html(
-                    htmlTemplate.replace(/__COL__/g, 'col-lg-' + (12/(activeChart-1)))
+                    htmlTemplate.replace(/__COL__/g, 'col-lg-' + ((12/(activeChart-1)) < 4 ? 4 : (12/(activeChart-1))))
                 );
 
                 for (var i = 0; i < chartGroup.length; i++) {
                     var chartID = 'chart_' + row.id + '_' + i;
                     loadDataset(
                         '#'+chartID,
-                        // chartGroup[i].vlabel,
                         {   id: row.id,
                             source: 'devices',
                             names: chartGroup[i].names,
@@ -139,10 +122,21 @@
             }
         }
 
-        var loadDataset = function (canvas, /*vlabel,*/ data) {
+        $(document).on('click', '.ch_size', function () {
+            var wrapper = $(this).closest('.chart');
+            if($(wrapper).hasClass('col-lg-12')) {
+                $(this).find('i').removeClass('fa-compress-arrows-alt').addClass('fa-expand-arrows-alt')
+                $(wrapper).attr('class', $(wrapper).attr('class').replace(/col-lg-\d+/g, $(wrapper).attr('default-size')))
+            } else {
+                $(this).find('i').removeClass('fa-expand-arrows-alt').addClass('fa-compress-arrows-alt')
+                $(wrapper).attr('class', $(wrapper).attr('class').replace(/col-lg-\d+/g, 'col-lg-12'))
+            }
+            // $($(wrapper).find('canvas')).attr('height', $(wrapper).attr('height'))
+        });
+
+        var loadDataset = function (canvas, data) {
             $.get('{{ url('rrd') }}', data,
                 function(responce){
-                    // CHART_LINE_OPTION.scales.yAxes[0].scaleLabel.labelString = dataset['vlabel'];
                     new Chart($(canvas).get(0).getContext('2d'), {
                         type: 'line',
                         data: responce.data,

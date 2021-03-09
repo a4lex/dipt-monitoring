@@ -9,27 +9,6 @@ use Ndum\Laravel\Snmp;
 
 class CreateDevice
 {
-//    protected $oids = array(
-//        '1' => array( // Ubiquiti AirFiber
-//            'name'      => '1.3.6.1.2.1.1.5.0', //'SNMPv2-MIB::sysName.0',
-//            'location'  => '1.3.6.1.2.1.1.6.0', // 'SNMPv2-MIB::sysLocation.0',
-//            'firmware'  => '1.3.6.1.4.1.41112.1.3.2.1.40.1', //'SNMPv2-SMI::enterprises.41112.1.3.2.1.40.1',
-//            'mac'       => '1.3.6.1.4.1.41112.1.3.2.1.45.1', // 'SNMPv2-SMI::enterprises.41112.1.3.2.1.45.1',
-//        ),
-//        '2' => array( // Extreme Switch
-//            'name'      => '1.3.6.1.2.1.1.5.0',
-//            'location'  => '1.3.6.1.2.1.1.6.0',
-//            'model'     => '1.0.8802.1.1.2.1.3.4.0',
-////            'mac'       => '1.0.8802.1.1.2.1.3.2.0', // TODO scrol down
-//        ),
-//        '3' => array(
-//            'name'      => '1.3.6.1.2.1.1.5.0', //'SNMPv2-MIB::sysName.0',
-//            'location'  => '1.3.6.1.2.1.1.6.0', // 'SNMPv2-MIB::sysLocation.0',
-//            'firmware'  => '',
-//            'mac'       => '1.3.6.1.4.1.41112.1.3.2.1.45.1', // 'SNMPv2-SMI::enterprises.41112.1.3.2.1.45.1',
-//        ),
-//    );
-
     protected $ifWlanList;
     protected $identity;
     protected $routerboard;
@@ -69,14 +48,14 @@ class CreateDevice
 
         if ($lastErr != null) return [$lastErr, null];
 
-//          TODO  in future...
-//        if (array_key_exists('mac', $snmpResponce)) {
-//            dd($snmpResponce['mac']); --> \x00\x04–˜K¨  extreme retyrn byte present of mac
-//            $mac = preg_replace('/[^0-9A-F]/i', '', strtoupper($snmpResponce['mac']));
-//            $mac = preg_replace('~(..)(?!$)\.?~', '\1:', $mac);
-//        } else {
-//            $mac = '00:00:00:00:00:00';
-//        }
+        if (array_key_exists('mac', $snmpResponce)) {
+            $unpucked = unpack("h*", $snmpResponce['mac']);
+            $snmpResponce['mac'] = isset($unpucked[1]) ? $unpucked[1] : $snmpResponce['mac'];
+            $snmpResponce['mac'] = preg_replace('/[^0-9A-F]/i', '', strtoupper($snmpResponce['mac']));
+            $snmpResponce['mac'] = preg_replace('~(..)(?!$)\.?~', '\1:', $snmpResponce['mac']);
+        } else {
+            $snmpResponce['mac'] = '00:00:00:00:00:00';
+        }
 
         $device = Device::updateOrCreate([
             'name'              => $snmpResponce['name']
@@ -94,5 +73,4 @@ class CreateDevice
 
         return [null, $device];
     }
-
 }
